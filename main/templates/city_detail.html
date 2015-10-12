@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body %}
+    <div class="container">
+
+        <div class="row">
+            <div class="box">
+                <div class="col-lg-12">
+                    <hr>
+                    <h2 class="intro-text text-center">{{ city.name }}
+                    </h2>
+
+                        <div class="col-lg-12 text-center">
+
+                        <h3>Zip Code:</h3>{{ city.zip_code }}</br>
+                        <hr>
+                        <h3>Latitude:</h3>{{ city.lat }}</br>
+                        <hr>
+                        <h3>Longitude:</h3>{{ city.lon }}</br>
+                        <hr>
+                        <h3>State:</h3>{{ city.state}}</br>
+                        <hr>
+                        <h3>Abbreviation:</h3>{{ city.abbrev }}</br>
+                        <hr>
+                        <h3>County:</h3>{{ city.county }}</br>
+                        <hr>
+
+                        </div>
+                    </hr>
+                </div>   
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+<h3>{{ city.name }}</h3>
+
+{% comment %}
+<p>Capital: {{ state.state_capital_set.all.first.name }}</p>
+<p>Population: {{ state.state_capital_set.all.first.pop }}</p>
+<p>Longitude: {{ state.state_capital_set.all.first.lon }}</p>
+<p>Latitude: {{ state.state_capital_set.all.first.lat }}</p>
+{% endcomment %}
+
+
+<h3>Zip Code:</h3>{{ city.zip_code }}</br>
+<h3>Latitude:</h3>{{ city.lat }}</br>
+<h3>Longitude:</h3>{{ city.lon }}
+<h3>State:</h3>{{ city.state}}</br>
+<h3>Abbreviation:</h3>{{ city.abbrev }}</br>
+<h3>County:</h3>{{ city.county }}</br>
+

@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+
+{% block body %}
+
+<div class="container">
+    <div class="row">
+        {% for capitals in StateCapital|slice=":30"|dictsort="name" %}
+            <a href="/city_detail/ {{ name.pk }}"> {{ city }} </a>
+
+        {% endfor %}
+
+{% endblock %}
