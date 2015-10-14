@@ -13,21 +13,34 @@
                     </h2>
                     <hr>
                 </div>
-                <div class="col-md-8">
-                    <!-- Embedded Google Map using an iframe - to select your location find it on Google maps and paste the link as the iframe src. If you want to use the Google Maps API instead then have at it! -->
-                    <div id="map" style="min-height:400px;min-width:100%">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <!-- Embedded Google Map using an iframe - to select your location find it on Google maps and paste the link as the iframe src. If you want to use the Google Maps API instead then have at it! -->
+                        <div id="map" style="min-height:400px;min-width:100%">
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-4">
-                    <p>Capital: 
-                        <strong>{{ state.statecapital.name }}</strong>
-                    </p>
-                    <p>Capital Population:
-                        <strong>{{ state.statecapital.pop|intcomma }}</strong>
-                    </p>
-                    <p>
-                    </p>
-                </div>
+                     
+                        <p>
+                            <div class="col-xs-4">
+                                <div class="row">
+                                        <div class="col-md-12">
+                                            <p>Capital: 
+                                                <strong>{{ state.statecapital.name }}</strong>
+                                            </p>
+                                            <p>Capital Population:
+                                                <strong>{{ state.statecapital.pop|intcomma }}</strong>
+                                            </p>
+                                            <p>
+                                            </p>
+                                        </div>
+                                    <img class='col-md-12' src="{{ state.state_map.url }}" alt="">
+                                </div>
+                            </div>
+                        </p>
+                   
+
+                    </div>
+                 </div>
                 <div class="clearfix"></div>
             </div>
         </div>

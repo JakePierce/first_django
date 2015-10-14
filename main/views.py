@@ -206,13 +206,13 @@ def city_edit(request, pk):
 
         #return render_to_response('city_edit.html', context, context_instance=RequestContext(request))
 
+
 def state_create(request):
     context = {}
 
     context['request'] = request.method
 
     context['states'] = State.objects.all()
-
 
     if request.method == 'POST':
         name = request.GET.get('name', None)
