@@ -20,10 +20,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)), 
-    url(r'^api_state_list/$', 'main.views.api_state_list'), 
-    url(r'^ajax_state_list/$', 'main.views.ajax_state_list'), 
-    url(r'^ajax_city_list/$', 'main.views.ajax_city_list'), 
-    url(r'^api_city_list/$', 'main.views.api_city_list'), 
 
     #url(pattern, view), #^ is the start and $ is the end of the pattern
     url(r'^state_list/$', 'main.views.state_list'),
@@ -39,8 +35,6 @@ urlpatterns = [
     url(r'^state_create/$', 'main.views.state_create'),
     url(r'^statecapital_create/$', 'main.views.statecapital_create'),
     url(r'^statecapital_edit/(?P<pk>\d+)/$', 'main.views.statecapital_edit'),
-
-    url(r'^vote/(?P<pk>\d+)/$', 'main.views.vote'),
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
