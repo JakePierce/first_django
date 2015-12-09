@@ -14,7 +14,7 @@ from main.models import State, StateCapital, City
 print os.path.abspath(__file__)
 
 dir_name = os.path.dirname(os.path.abspath(__file__))
-file_name = "zip_codes_states.csv"
+file_name = "states.csv"
 
 # print "%s/%s" % (dir_name, file_name)
 
@@ -39,17 +39,28 @@ for row in reader:
     new_capital.state = new_state
     new_capital.save()
 
-# for row in reader:
-#     new_area, created = City.objects.get_or_create(name=row['city'])
-#     new_area.zip_code = row['zip_code']
-#     new_area.lat = row['latitude']
-#     new_area.lon = row['longitude']
-#     new_area.city = row['city']
-#     new_area.abbrev = row['state']
-#     new_area.county = row['county']
+csv_file.close()
+
+dir_name = os.path.dirname(os.path.abspath(__file__))
+file_name = "zip_codes_states.csv"
+
+zip_codes_states_csv = os.path.join(dir_name, file_name)
+
+csv_file = open(zip_codes_states_csv, 'r')
+
+reader = csv.DictReader(csv_file)
+
+for row in reader:
+    new_area, created = City.objects.get_or_create(name=row['city'])
+    new_area.zip_code = row['zip_code']
+    new_area.lat = row['latitude']
+    new_area.lon = row['longitude']
+    new_area.city = row['city']
+    new_area.abbrev = row['state']
+    new_area.county = row['county']
 
 
-    # state = State.objects.get()
+    # state = State.objects.get_or_create()
 
     try:
         state_obj = State.objects.get(abbrev=row['state'])
