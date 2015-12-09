@@ -43,6 +43,8 @@ INSTALLED_APPS = (
     
 )
 
+INSTALLED_APPS = ('django_cassandra_engine',) + INSTALLED_APPS
+
 CRISPY_TEMPLATE_PACK = 'bootstrap3'
 
 MIDDLEWARE_CLASSES = (
@@ -87,17 +89,28 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #     }
 # }
 
-DATABASES = {  
-    'default':{
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': 'first_django', 
-        'HOST': '127.0.0.1', 
-        'USER': 'root', 
-        'PASSWORD': 'root', 
-        'PORT': ''
+DATABASES = { 
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'first_django',
+        'HOST': '127.0.0.1',
+        'USER': 'root',
+        'PASSWORD': 'root',
+        'PORT': '',
+    },
+    'cassandra': {
+        'ENGINE': 'django_cassandra_engine',
+        'NAME': 'state_db',
+        'TEST_NAME': 'state_db',
+        'HOST': '127.0.0.1',
+        'OPTIONS': {
+            'replications': {
+                'strategy_class': 'SimpleStrategy',
+                'replication_factor': 1
+            }
+        }
     }
 }
-
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
 

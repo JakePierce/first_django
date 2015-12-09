@@ -1,5 +1,5 @@
 from django.shortcuts import render, render_to_response, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 # Create your views here.
 from main.models import State, City, StateCapital
 from django.template import RequestContext
@@ -7,6 +7,7 @@ from main.forms import ContactForm, CityEditForm, StateEditForm, StateCapitalEdi
 from django.core.mail import send_mail
 from django.conf import settings
 
+from django.contrib.auth.models import User
 #list views
 #detail views
 #create view
@@ -15,15 +16,113 @@ from django.conf import settings
 #make the view --> make the url
 
 
+def city_list_cas(request):
+
+    context = {}
+
+    city_list = CityCas.objects.all()
+    
+
+def api_state_list(request):
+
+    states = State.objects.all()
+
+    api_dict = {}
+
+    state_list = []
+
+    api_dict['states'] = state_list
+
+    for state in states:
+        cities = state.city_set.all()[:30]
+
+        city_list = []
+
+        for city in cities:
+            city_list.append({'name': city.name, 'pk': city.pk})
+
+        try:
+            state_list.append({'name': state.name,
+                               'abbrev': state.abbrev,
+                               'map': state.state_map.url,
+                               'capital': state.statecapital.name,
+                               'votes': state.votes,
+                               'pk': state.pk,
+                               # 'cities': [city for city in state.city_set.all()[:30]],
+                               'cities': city_list,
+                               })
+        except:
+            print state.name
+    return JsonResponse(api_dict)
+
+
+def ajax_state_list(request):
+
+    context = {}
+
+    return render_to_response('ajax_state_list.html', context, context_instance=RequestContext(request))
+
+
+def api_city_list(request):
+
+    cities = City.objects.all()
+
+    api_dict = {}
+
+    city_list = []
+
+    api_dict['cities'] = city_list
+
+    for city in cities:
+        try:
+            city_list.append({'zip_code': city.zip_code,
+                              'lat': city.lat,
+                              'lon': city.lon,
+                              })
+        except:
+            print city.name
+    return JsonResponse(api_dict)
+
+
+def ajax_city_list(request):
+
+    context = {}
+
+    return render_to_response('ajax_city_list.html', context, context_instance=RequestContext(request))
+
+
+def vote(request, pk):
+
+    vote_type = request.GET.get('vote_type', None)
+    user = User.objects.get(pk=request.user.pk)
+    state = State.objects.get(pk=pk)
+    userprofile = user.userprofile
+
+    if vote_type == 'up':
+        if userprofile in state.downvotes.all():
+            state.downvotes.remove(userprofile)
+        
+        state.upvotes.add(userprofile)
+
+    if vote_type == 'down':
+        if userprofile in state.upvotes.all():
+            state.downvotes.add(userprofile)
+
+        state.downvotes.add(userprofile)
+#'UpVote: %s, DownVotes: %s' % (state.upvotes.all().count(), state.downvotes.all().count())
+    return HttpResponseRedirect('/state_list/')
+
+
 def state_list(request): #request pretty much always has to be there, you are going through all the objects
 
     context = {}
 
-    states = State.objects.all()
+    states = State.objects.all().order_by('-upvotes_count')
 
     context['states'] = states
     #template -> context dictionary -> context_instance variable
     return render_to_response('state_list.html', context, context_instance=RequestContext(request))
+
 
 def state_detail(request, pk): #purpose is to show detailed view of a specific object
     context = {}
@@ -31,7 +130,6 @@ def state_detail(request, pk): #purpose is to show detailed view of a specific o
     state = State.objects.get(pk=pk)
 
     context['state'] = state
-
 
     return render_to_response('state_detail.html', context, context_instance=RequestContext(request))
 

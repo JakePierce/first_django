@@ -1,5 +1,5 @@
 from django.contrib import admin
-from main.models import State, StateCapital, City
+from main.models import State, StateCapital, City, UserProfile
 # Register your models here.
 
 
@@ -23,3 +23,4 @@ class CityAdmin(admin.ModelAdmin):
 admin.site.register(State, StateAdmin)
 admin.site.register(StateCapital, CapitalAdmin)
 admin.site.register(City)
+admin.site.register(UserProfile)
